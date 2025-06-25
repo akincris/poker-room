@@ -17,18 +17,20 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en" data-theme={theme}>
-      <head></head>
-      <body className="bg-gradient-to-br from-poker-100 via-poker-200 to-poker-300">
-        <StoreProvider>
-          <main className="min-h-screen [&_hr]:border-[#f2f2f2] flex text-white">
-            <div className="p-4 w-full max-w-[1800px] mx-auto">
-              <Header />
-              <div className="mt-8 md:h-[calc(100%-80px)]">{children}</div>
-            </div>
-          </main>
-        </StoreProvider>
-      </body>
-    </html>
+    theme && (
+      <html lang="en" data-theme={theme} className="fade-in">
+        <head></head>
+        <body className="bg-gradient-to-br from-poker-100 via-poker-200 to-poker-300">
+          <StoreProvider>
+            <main className="min-h-screen flex text-poker-50 [&_*]:border-poker-50">
+              <div className="p-4 w-full max-w-[1800px] mx-auto">
+                <Header />
+                <div className="mt-8 md:h-[calc(100%-80px)]">{children}</div>
+              </div>
+            </main>
+          </StoreProvider>
+        </body>
+      </html>
+    )
   );
 }

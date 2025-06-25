@@ -5,7 +5,11 @@ import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="gap-4 w-full h-16 rounded-2xl [&_svg]:opacity-50 [&_svg]:hover:opacity-100 [&_svg]:duration-300 [&_svg]:transition-opacity py-2 px-4 pl-6 top-0 md:top-4 z-10 shadow-[inset_4px_4px_15px_rgba(255,255,255,0.40)] text-white flex items-center sticky">
+    <header
+      className="gap-4 w-full h-16 rounded-2xl [&_svg]:opacity-50 [&_svg]:hover:opacity-100 
+    [&_svg]:duration-300 [&_svg]:transition-opacity py-2 px-4 pl-6 top-0 md:top-4 z-10 
+    shadow-[inset_4px_4px_15px_rgba(255,255,255,0.40)] text-white flex items-center sticky"
+    >
       <div className="flex gap-1 justify-between w-full">
         <div className="gap-2 flex">
           <Link href="/" className="justify-center flex items-center gap-1">

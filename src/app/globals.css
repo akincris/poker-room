@@ -6,15 +6,19 @@
   --background: #ffffff;
   --foreground: #171717;
 
+  --color-poker-50: #c9b3d8;
   --color-poker-100: #b39199;
   --color-poker-200: #7f5a98;
   --color-poker-300: #506a8e;
+  --color-poker-900: #ab91cf;
 }
 
 [data-theme="dark"] {
+  --color-poker-50: #fbfbfb;
   --color-poker-100: #210209;
   --color-poker-200: #220833;
   --color-poker-300: #091e3c;
+  --color-poker-900: #5f3698;
 }
 
 @theme inline {
@@ -25,9 +29,11 @@
 
   /* Colors */
 
+  --color-poker-50: var(--color-poker-50);
   --color-poker-100: var(--color-poker-100);
   --color-poker-200: var(--color-poker-200);
   --color-poker-300: var(--color-poker-300);
+  --color-poker-900: var(--color-poker-900);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,7 +44,7 @@
 }
 
 body {
-  color: var(--foreground);
+  color: var(--color-poker-50);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -66,5 +72,18 @@ body {
 
   .flip-y-show {
     @apply animate-[flip-y-show_0.5s_forwards];
-  } 
+  }
+
+    @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 0.8s ease-in-out;
+  }
 }
