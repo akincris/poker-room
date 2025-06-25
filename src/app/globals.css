@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --color-poker-100: #b39199;
+  --color-poker-200: #7f5a98;
+  --color-poker-300: #506a8e;
+}
+
+[data-theme="dark"] {
+  --color-poker-100: #210209;
+  --color-poker-200: #220833;
+  --color-poker-300: #091e3c;
 }
 
 @theme inline {
@@ -10,6 +22,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Colors */
+
+  --color-poker-100: var(--color-poker-100);
+  --color-poker-200: var(--color-poker-200);
+  --color-poker-300: var(--color-poker-300);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +38,33 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  @keyframes flip-y-hide {
+    0% {
+      transform: rotateY(0);
+    }
+    100% {
+      transform: rotateY(180deg);
+    }
+  }
+
+  @keyframes flip-y-show {
+    0% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(0);
+    }
+  }
+  .flip-y-hide {
+    @apply animate-[flip-y-hide_0.5s_forwards];
+  }
+
+  .flip-y-show {
+    @apply animate-[flip-y-show_0.5s_forwards];
+  } 
 }
