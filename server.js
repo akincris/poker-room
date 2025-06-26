@@ -8,7 +8,9 @@ dotenv.config();
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
 const port = 3000;
-const maxPlayersPerRoom = parseInt(process.env.NEXT_PUBLIC_MAX_PLAYERS_PER_ROOM || "5");
+const maxPlayersPerRoom = parseInt(
+  process.env.NEXT_PUBLIC_MAX_PLAYERS_PER_ROOM || "5"
+);
 
 const rooms = {};
 
@@ -61,6 +63,15 @@ app.prepare().then(() => {
       });
     });
 
+    socket.on("resetVotes", ({ roomId: id }) => {
+      rooms[id] = rooms[id]?.map(({ name }) => ({ name }));
+      socket.join(id);
+
+      io.to(id).emit("roomData", {
+        id: id,
+        players: rooms[id],
+      });
+    });
     socket.on("playerVote", ({ player, roomId: id }) => {
       rooms[id] = rooms[id].map((p) => {
         if (p.name == player.name) {

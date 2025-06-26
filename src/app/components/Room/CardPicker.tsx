@@ -43,7 +43,7 @@ export const CardPicker = () => {
       <div className="flex flex-wrap gap-4 justify-center my-10">
         {cards.map((_, index) => {
           const votedByOtherPlayers = !!players
-            .filter((p) => p.name != player.name)
+            ?.filter((p) => p.name != player.name)
             .find((p) => p.vote == index);
 
           const disabled = loading || votedByOtherPlayers;

@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const { player, room } = useAppSelector((state) => state);
+  const player = useAppSelector((state) => state.player);
+  const room = useAppSelector((state) => state.room);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -29,8 +30,13 @@ export const Header = () => {
         <div className="gap-2 flex">
           <Icon name="poker" />
         </div>
-        <div className="flex gap-4">
-          <button className="cursor-pointer" onClick={toggleTheme}>
+        <div className="flex gap-4 [&_button]:cursor-pointer">
+          <button
+            onClick={() => socket.emit("resetVotes", { roomId: room.id })}
+          >
+            <Icon name="reset" />
+          </button>
+          <button onClick={toggleTheme}>
             <Icon
               name="light"
               styles="flip-y-show dark:flip-y-hide dark:hidden"
@@ -41,7 +47,6 @@ export const Header = () => {
             />
           </button>
           <button
-            className="cursor-pointer"
             onClick={() => {
               socket.emit("playerDisconnect", { roomId: room.id, player });
               redirect("/");

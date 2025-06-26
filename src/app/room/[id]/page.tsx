@@ -15,12 +15,9 @@ export default function Room({ params }: any) {
   const player = useAppSelector((state) => state.player);
   const { players } = useAppSelector((state) => state.room);
   const minPlayersPerRoom = parseInt(
-    process.env.NEXT_PUBLIC_MIN_PLAYERS_PER_ROOM || "2"
+    process.env.NEXT_PUBLIC_MIN_PLAYERS_PER_ROOM || "3"
   );
 
-  const cardReveal =
-    minPlayersPerRoom <= players?.length &&
-    !players.find((p) => p.vote == undefined);
   const [hidePicker, setHidePicker] = useState(false);
 
   useEffect(() => {
@@ -45,10 +42,12 @@ export default function Room({ params }: any) {
   }, []);
 
   useEffect(() => {
-    if (cardReveal) {
-      setTimeout(() => setHidePicker(true), 300);
-    }
-  }, [cardReveal]);
+    const cardReveal =
+      minPlayersPerRoom <= players?.length &&
+      !players.find((p) => p.vote == undefined);
+
+    setTimeout(() => setHidePicker(cardReveal), 300);
+  }, [players]);
 
   return (
     <div className="flex flex-col gap-10 pt-2 items-center">
@@ -59,7 +58,10 @@ export default function Room({ params }: any) {
       <div className="flex w-full gap-4 relative">
         <ParticipantList />
         <div
-          data-reveal={cardReveal}
+          data-reveal={
+            minPlayersPerRoom <= players?.length &&
+            !players.find((p) => p.vote == undefined)
+          }
           className="group w-full flex flex-col items-center"
         >
           {!hidePicker ? (
@@ -67,8 +69,8 @@ export default function Room({ params }: any) {
               <CardPicker />
             </div>
           ) : (
-            <div className="text-[250px] leading-[250px] lg:text-[500px] lg:leading-[490px] flip-y-hide group-data-[reveal=true]:flip-y-show">
-              {cards[player.vote || -1]}
+            <div className="cursor-pointer text-[250px] leading-[250px] lg:text-[500px] lg:leading-[490px] flip-y-hide group-data-[reveal=true]:flip-y-show">
+              {cards[player.vote as any]}
             </div>
           )}
         </div>
