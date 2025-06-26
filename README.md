@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Poker Room
 
-## Getting Started
+## How to Install / Run Locally
 
-First, run the development server:
+1. **Clone the repository:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   ```bash
+   git clone https://github.com/akincris/poker-room.git
+   cd poker-room
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
+     ```bash
+      npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Run on development:**
+     ```bash
+      npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+4. **Optional:**
+     There's a .env.sample file that you can use to create an .env file and set the min and max players per room. By default it will be min 3 and max 5 players.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use
+ 1. Once navigating to the "Lobby Room" user will be prompted to type in their name to enter a room. Name should include at least one letter.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Once in a room there will be 52 cards displayed for user to choose, on the left side the list of the other players is displayed along with a check mark near the ones who already voted.
 
-## Deploy on Vercel
+3. Once selecting the card and voting, if the minimum required players are not in the room there will be a pulse animation while awaiting others. Otherwise the cards will be revealead right away. 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Users can see the cards that were picked by other players marked by red and unable to select them.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Using the header, user can toggle the theme, reset votes or leave the room.
