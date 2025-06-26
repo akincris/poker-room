@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from 'uuid';
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -12,7 +12,7 @@ const rooms = {};
 
 const findRoom = (rooms) => {
   for (const key of Object.keys(rooms)) {
-    if (rooms[key].length < maxPlayersPerRoom) {
+    if (rooms[key]?.length < maxPlayersPerRoom) {
       return key;
     }
   }
@@ -30,11 +30,12 @@ app.prepare().then(() => {
   io.on("connection", (socket) => {
     console.info("Server Connected");
 
-    socket.on("register", (player) => {
+    socket.on("playerRegister", (player) => {
       let roomId = findRoom(rooms);
 
       if (!roomId) {
-        let newRoomId = nanoid(10);
+        let newRoomId = uuidv4();
+
         rooms[newRoomId] = [];
         roomId = newRoomId;
       }
@@ -48,8 +49,8 @@ app.prepare().then(() => {
       });
     });
 
-    socket.on("playerDisconnected", ({ player, roomId }) => {
-      rooms[roomId] = rooms[roomId].filter((p) => p.name != player.name);
+    socket.on("playerDisconnect", ({ player, roomId }) => {
+      rooms[roomId] = rooms[roomId]?.filter((p) => p.name != player.name);
       socket.join(roomId);
 
       io.to(roomId).emit("roomData", {
@@ -58,17 +59,19 @@ app.prepare().then(() => {
       });
     });
 
-    socket.on("getRoomData", (roomId) => {
+    socket.on("playerVote", ({ player, roomId }) => {
+      rooms[roomId] = rooms[roomId].map((p) => {
+        if (p.name == player.name) {
+          return player;
+        }
+        return p;
+      });
       socket.join(roomId);
 
-      if (rooms[roomId]) {
-        io.to(roomId).emit("roomData", {
-          id: roomId,
-          players: rooms[roomId],
-        });
-      } else {
-        io.to(roomId).emit("roomData", null);
-      }
+      io.to(roomId).emit("roomData", {
+        id: roomId,
+        players: rooms[roomId],
+      });
     });
   });
 

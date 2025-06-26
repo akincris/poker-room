@@ -10,7 +10,7 @@
   --color-poker-100: #b39199;
   --color-poker-200: #7f5a98;
   --color-poker-300: #506a8e;
-  --color-poker-900: #ab91cf;
+  --color-poker-900: #c8b3e2;
 }
 
 [data-theme="dark"] {
@@ -66,11 +66,12 @@ body {
       transform: rotateY(0);
     }
   }
-  .flip-y-hide {
+
+  .flip-y-show {
     @apply animate-[flip-y-hide_0.5s_forwards];
   }
 
-  .flip-y-show {
+  .flip-y-hide {
     @apply animate-[flip-y-show_0.5s_forwards];
   }
 

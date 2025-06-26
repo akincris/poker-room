@@ -2,7 +2,7 @@
 import "./globals.css";
 import { Header } from "./components/global/Header";
 import StoreProvider from "./StoreProvider";
-import { getSSValue } from "./utils/localStorage";
+import { getLSValue } from "./utils/localStorage";
 import { useEffect, useState } from "react";
 import { socket } from "@/socket";
 
@@ -14,7 +14,7 @@ export default function RootLayout({
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    setTheme(getSSValue("theme") || "light");
+    setTheme(getLSValue("theme") || "light");
 
     return () => {
       socket.disconnect();

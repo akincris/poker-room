@@ -13,10 +13,10 @@ export const ParticipantList = () => {
       data-visible={!!visible}
       className="space-y-5 group text-xs lg:text-base"
     >
-      <button onClick={() => setVisible(!visible)} className="cursor-pointer">
+      <button onClick={() => setVisible(!visible)} className="cursor-pointer p-2 border rounded-full">
         <Icon
           name="menu"
-          styles="-rotate-90 duration-300 transition-transform group-data-[visible=true]:rotate-90 size-6"
+          styles="-rotate-90 duration-300 transition-transform group-data-[visible=true]:rotate-90 size-5"
         />
       </button>
       <div
@@ -28,12 +28,12 @@ export const ParticipantList = () => {
           <hr className="!border-violet-50" />
           <div
             className="flex flex-col gap-3 transition-[max-height] duration-500 overflow-hidden"
-            style={{ maxHeight: `${players.length * 64}px` }}
+            style={{ maxHeight: `${players?.length * 64}px` }}
           >
-            {players.map(({ name, voted }, index) => (
+            {players.map(({ name, vote }, index) => (
               <div
                 key={index}
-                data-voted={voted}
+                data-voted={vote != undefined}
                 className="text-white items-center group/participant flex justify-between p-2 lg:p-3 cursor-pointer border hover:!border-poker-900 hover:text-poker-900 transition-colors duration-300 rounded-2xl !border-white"
               >
                 <div className="space-x-2">

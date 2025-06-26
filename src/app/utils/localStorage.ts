@@ -1,5 +1,5 @@
-const getSSValue = (field: string) => sessionStorage.getItem(field);
-const setSSValue = (field: string, value: any) => sessionStorage.setItem(field, value);
-const clearSSValue = (field: string) => sessionStorage.removeItem(field);
+const getLSValue = (field: string) => localStorage.getItem(field);
+const setLSValue = (field: string, value: any) => localStorage.setItem(field, value);
+const clearLSValue = (field: string) => localStorage.removeItem(field);
 
-export { getSSValue, setSSValue, clearSSValue };
+export { getLSValue, setLSValue, clearLSValue };

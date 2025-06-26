@@ -26,7 +26,7 @@ export const RegisterForm = () => {
     const data = { name: formData.name, createdAt: new Date().getTime() };
     dispatch(updatePlayerData(data));
 
-    socket.emit("register", data);
+    socket.emit("playerRegister", data);
   });
 
   useEffect(() => {

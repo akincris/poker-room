@@ -1,5 +1,4 @@
 import { IPlayer } from "@/app/interfaces/player";
-import { setSSValue } from "@/app/utils/localStorage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {

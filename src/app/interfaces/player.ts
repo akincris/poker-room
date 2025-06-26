@@ -1,5 +1,5 @@
 export interface IPlayer {
   name: string;
-  voted?: boolean;
+  vote?: number;
   createdAt?: number;
 }

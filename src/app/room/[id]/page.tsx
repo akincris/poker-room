@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CardPicker } from "../../components/Room/CardPicker";
 import { ParticipantList } from "../../components/Room/Participants";
 import { socket } from "@/socket";
@@ -7,14 +7,19 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { updateRoomData } from "@/lib/features/room-slice";
 import { redirect } from "next/navigation";
 import { IRoom } from "@/app/interfaces/room";
+import { cards } from "@/app/utils/cards";
 
 export default function Room({ params }: any) {
   const dispatch = useAppDispatch();
   const { id }: { id: string } = React.use(params);
   const player = useAppSelector((state) => state.player);
+  const { players } = useAppSelector((state) => state.room);
+  const cardReveal =
+    1 < players.length && !players.find((p) => p.vote == undefined);
+  const [hidePicker, setHidePicker] = useState(false);
 
   useEffect(() => {
-    socket.emit("getRoomData", id);
+    if (!player.name) redirect("/");
 
     socket.on("roomData", (room: IRoom) => {
       if (!room) redirect("/");
@@ -24,9 +29,7 @@ export default function Room({ params }: any) {
 
   useEffect(() => {
     const handleGameExit = () => {
-      socket.emit("playerDisconnected", { roomId: id, player }, () => {
-        redirect("/");
-      });
+      socket.emit("playerDisconnect", { roomId: id, player });
     };
 
     window.addEventListener("beforeunload", handleGameExit);
@@ -36,6 +39,12 @@ export default function Room({ params }: any) {
     };
   }, []);
 
+  useEffect(() => {
+    if (cardReveal) {
+      setTimeout(() => setHidePicker(true), 300);
+    }
+  }, [cardReveal]);
+
   return (
     <div className="flex flex-col gap-10 pt-2 items-center">
       <h4 className="text-2xl lg:text-4xl font-semibold opacity-50">
@@ -44,7 +53,20 @@ export default function Room({ params }: any) {
 
       <div className="flex w-full gap-4 relative">
         <ParticipantList />
-        <CardPicker />
+        <div
+          data-reveal={cardReveal}
+          className="group w-full flex flex-col items-center"
+        >
+          {!hidePicker ? (
+            <div className="grid overflow-hidden transition-all duration-300 group-data-[reveal=true]:opacity-0 opacity-100 group-data-[reveal=true]:grid-rows-[0fr] grid-rows-[1fr]">
+              <CardPicker />
+            </div>
+          ) : (
+            <div className="text-[250px] leading-[250px] lg:text-[500px] lg:leading-[490px] flip-y-hide group-data-[reveal=true]:flip-y-show">
+              {cards[player.vote || -1]}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
