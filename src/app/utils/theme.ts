@@ -1,7 +1,7 @@
-import { getLSValue, setLSValue } from "./localStorage";
+import { getSSValue, setSSValue } from "./localStorage";
 
 export const toggleTheme = () => {
-  const selectedTheme = getLSValue("theme") == "light" ? "dark" : "light";
-  setLSValue("theme", selectedTheme);
+  const selectedTheme = getSSValue("theme") == "light" ? "dark" : "light";
+  setSSValue("theme", selectedTheme);
   document.documentElement.setAttribute("data-theme",selectedTheme);
 };

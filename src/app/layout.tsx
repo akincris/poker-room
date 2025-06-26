@@ -2,8 +2,9 @@
 import "./globals.css";
 import { Header } from "./components/global/Header";
 import StoreProvider from "./StoreProvider";
-import { getLSValue } from "./utils/localStorage";
+import { getSSValue } from "./utils/localStorage";
 import { useEffect, useState } from "react";
+import { socket } from "@/socket";
 
 export default function RootLayout({
   children,
@@ -13,7 +14,11 @@ export default function RootLayout({
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    setTheme(getLSValue("theme") || "light");
+    setTheme(getSSValue("theme") || "light");
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
