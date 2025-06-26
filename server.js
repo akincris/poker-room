@@ -1,12 +1,14 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import dotenv from "dotenv";
 
+dotenv.config();
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
 const port = 3000;
-const maxPlayersPerRoom = 5;
+const maxPlayersPerRoom = parseInt(process.env.NEXT_PUBLIC_MAX_PLAYERS_PER_ROOM || "5");
 
 const rooms = {};
 
@@ -31,46 +33,46 @@ app.prepare().then(() => {
     console.info("Server Connected");
 
     socket.on("playerRegister", (player) => {
-      let roomId = findRoom(rooms);
+      let id = findRoom(rooms);
 
-      if (!roomId) {
+      if (!id) {
         let newRoomId = uuidv4();
 
         rooms[newRoomId] = [];
-        roomId = newRoomId;
+        id = newRoomId;
       }
 
-      rooms[roomId] = [...rooms[roomId], player];
-      socket.join(roomId);
+      rooms[id] = [...rooms[id], player];
+      socket.join(id);
 
-      io.to(roomId).emit("roomData", {
-        id: roomId,
-        players: rooms[roomId],
+      io.to(id).emit("registered", {
+        id: id,
+        players: rooms[id],
       });
     });
 
-    socket.on("playerDisconnect", ({ player, roomId }) => {
-      rooms[roomId] = rooms[roomId]?.filter((p) => p.name != player.name);
-      socket.join(roomId);
+    socket.on("playerDisconnect", ({ player, roomId: id }) => {
+      rooms[id] = rooms[id]?.filter((p) => p.name != player.name);
+      socket.join(id);
 
-      io.to(roomId).emit("roomData", {
-        id: roomId,
-        players: rooms[roomId],
+      io.to(id).emit("roomData", {
+        id: id,
+        players: rooms[id],
       });
     });
 
-    socket.on("playerVote", ({ player, roomId }) => {
-      rooms[roomId] = rooms[roomId].map((p) => {
+    socket.on("playerVote", ({ player, roomId: id }) => {
+      rooms[id] = rooms[id].map((p) => {
         if (p.name == player.name) {
           return player;
         }
         return p;
       });
-      socket.join(roomId);
+      socket.join(id);
 
-      io.to(roomId).emit("roomData", {
-        id: roomId,
-        players: rooms[roomId],
+      io.to(id).emit("roomData", {
+        id: id,
+        players: rooms[id],
       });
     });
   });

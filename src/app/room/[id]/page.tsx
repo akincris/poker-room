@@ -14,15 +14,20 @@ export default function Room({ params }: any) {
   const { id }: { id: string } = React.use(params);
   const player = useAppSelector((state) => state.player);
   const { players } = useAppSelector((state) => state.room);
+  const minPlayersPerRoom = parseInt(
+    process.env.NEXT_PUBLIC_MIN_PLAYERS_PER_ROOM || "2"
+  );
+
   const cardReveal =
-    1 < players.length && !players.find((p) => p.vote == undefined);
+    minPlayersPerRoom <= players?.length &&
+    !players.find((p) => p.vote == undefined);
   const [hidePicker, setHidePicker] = useState(false);
 
   useEffect(() => {
     if (!player.name) redirect("/");
 
     socket.on("roomData", (room: IRoom) => {
-      if (!room) redirect("/");
+      if (!room || !player.name) redirect("/");
       dispatch(updateRoomData(room));
     });
   }, []);

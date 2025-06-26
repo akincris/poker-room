@@ -25,7 +25,7 @@ export default function RootLayout({
     theme && (
       <html lang="en" data-theme={theme} className="fade-in">
         <head></head>
-        <body className="bg-gradient-to-br from-poker-100 via-poker-200 to-poker-300">
+        <body className="gradient-bg">
           <StoreProvider>
             <main className="min-h-screen flex text-poker-50 [&_*]:border-poker-50">
               <div className="p-4 w-full max-w-[1800px] mx-auto">

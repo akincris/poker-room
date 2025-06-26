@@ -66,6 +66,9 @@ body {
       transform: rotateY(0);
     }
   }
+  .gradient-bg {
+    @apply bg-gradient-to-br from-poker-100 via-poker-200 to-poker-300;
+  }
 
   .flip-y-show {
     @apply animate-[flip-y-hide_0.5s_forwards];

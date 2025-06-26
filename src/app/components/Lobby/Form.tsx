@@ -23,14 +23,14 @@ export const RegisterForm = () => {
 
   const onSubmit = handleSubmit((formData) => {
     setIsLoading(true);
-    const data = { name: formData.name, createdAt: new Date().getTime() };
+    const data = { name: formData.name };
     dispatch(updatePlayerData(data));
 
     socket.emit("playerRegister", data);
   });
 
   useEffect(() => {
-    socket.on("roomData", (room: IRoom) =>
+    socket.on("registered", (room: IRoom) =>
       setTimeout(() => {
         setIsLoading(false);
 

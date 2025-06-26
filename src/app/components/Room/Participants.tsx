@@ -11,7 +11,7 @@ export const ParticipantList = () => {
   return (
     <div
       data-visible={!!visible}
-      className="space-y-5 group text-xs lg:text-base"
+      className="space-y-5 group text-xs lg:text-base sticky top-10 h-min"
     >
       <button onClick={() => setVisible(!visible)} className="cursor-pointer p-2 border rounded-full">
         <Icon
@@ -30,7 +30,7 @@ export const ParticipantList = () => {
             className="flex flex-col gap-3 transition-[max-height] duration-500 overflow-hidden"
             style={{ maxHeight: `${players?.length * 64}px` }}
           >
-            {players.map(({ name, vote }, index) => (
+            {players?.map(({ name, vote }, index) => (
               <div
                 key={index}
                 data-voted={vote != undefined}
